@@ -10,7 +10,7 @@
     "dev": "concurrently \"npm run frontend\" \"npm run backend"
   },
   "keywords": [],
-  "author": "HuXn WebDev",
+  "author": "unique",
   "license": "ISC",
   "dependencies": {
     "@vitejs/plugin-react": "^4.2.1",
