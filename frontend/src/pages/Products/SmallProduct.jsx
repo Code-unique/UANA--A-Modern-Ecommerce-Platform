@@ -17,8 +17,8 @@ const SmallProduct = ({ product }) => {
         <Link to={`/product/${product._id}`}>
           <h2 className="flex justify-between items-center">
             <div>{product.name}</div>
-            <span className="bg-pink-100 text-pink-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">
-              ${product.price}
+            <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+              NPR {product.price}
             </span>
           </h2>
         </Link>

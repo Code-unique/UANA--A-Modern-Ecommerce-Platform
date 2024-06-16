@@ -2,16 +2,18 @@
   width: 4%;
   transition: width 0.3s ease-in-out;
   overflow: hidden; /* Hide overflowing content during transition */
+  background-color: teal; /* Set background color to teal */
 }
 
 #navigation-container:hover {
   width: 15%;
 }
 
-/* Initially hide nav-item-name */
+
 .nav-item-name {
   display: none;
-  transition: opacity 0.2s ease-in-out; /* Add opacity transition */
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out; 
 }
 
 #navigation-container:hover .nav-item-name {
@@ -21,8 +23,8 @@
 
 .search-input {
   display: none;
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out; /* Add opacity transition */
+  opacity: 0; /* Ensure it is invisible initially */
+  transition: opacity 0.3s ease-in-out; /* Add opacity transition */
 }
 
 #navigation-container:hover .search-input {
@@ -32,5 +34,5 @@
 
 #navigation-container:hover .search-icon {
   display: none;
-  transition: opacity 0.2s ease-in-out; /* Add opacity transition */
+  transition: opacity 0.3s ease-in-out; /* Add opacity transition */
 }

@@ -43,6 +43,7 @@ const PlaceOrder = () => {
 
   return (
     <>
+    <div className="bg-teal-500 min-h-screen">
       <ProgressSteps step1 step2 step3 />
 
       <div className="container mx-auto mt-8">
@@ -89,7 +90,7 @@ const PlaceOrder = () => {
 
         <div className="mt-8">
           <h2 className="text-2xl font-semibold mb-5">Order Summary</h2>
-          <div className="flex justify-between flex-wrap p-8 bg-[#181818]">
+          <div className="flex justify-between flex-wrap p-8 bg-teal-500">
             <ul className="text-lg">
               <li>
                 <span className="font-semibold mb-4">Items:</span> $
@@ -128,7 +129,7 @@ const PlaceOrder = () => {
 
           <button
             type="button"
-            className="bg-pink-500 text-white py-2 px-4 rounded-full text-lg w-full mt-4"
+            className="bg-green-500 text-white py-2 px-4 rounded-full text-lg w-full mt-4"
             disabled={cart.cartItems === 0}
             onClick={placeOrderHandler}
           >
@@ -137,6 +138,7 @@ const PlaceOrder = () => {
 
           {isLoading && <Loader />}
         </div>
+      </div>
       </div>
     </>
   );

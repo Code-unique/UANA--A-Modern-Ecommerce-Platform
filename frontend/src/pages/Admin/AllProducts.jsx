@@ -17,17 +17,19 @@ const AllProducts = () => {
   return (
     <>
       <div className="container mx-[9rem]">
-        <div className="flex flex-col  md:flex-row">
+        <div className={`flex flex-col md:flex-row bg-teal-500 min-h-screen ${products.length % 2 !== 0 ? "justify-end" : "justify-start"}`}>
           <div className="p-3">
-            <div className="ml-[2rem] text-xl font-bold h-12">
+            <div className="ml-[2rem] text-xl font-bold h-12 text-coral">
               All Products ({products.length})
             </div>
             <div className="flex flex-wrap justify-around items-center">
-              {products.map((product) => (
+              {products.map((product, index) => (
                 <Link
                   key={product._id}
                   to={`/admin/product/update/${product._id}`}
-                  className="block mb-4 overflow-hidden"
+                  className={`block mb-4 overflow-hidden ${
+                    (index === products.length - 1 && products.length % 2 !== 0) ? "mb-12 md:mb-4" : ""
+                  }`}
                 >
                   <div className="flex">
                     <img
@@ -37,23 +39,23 @@ const AllProducts = () => {
                     />
                     <div className="p-4 flex flex-col justify-around">
                       <div className="flex justify-between">
-                        <h5 className="text-xl font-semibold mb-2">
+                        <h5 className="text-xl font-semibold mb-2 text-white">
                           {product?.name}
                         </h5>
 
-                        <p className="text-gray-400 text-xs">
+                        <p className="text-white-50 text-xs">
                           {moment(product.createdAt).format("MMMM Do YYYY")}
                         </p>
                       </div>
 
-                      <p className="text-gray-400 xl:w-[30rem] lg:w-[30rem] md:w-[20rem] sm:w-[10rem] text-sm mb-4">
+                      <p className="text-white-50 xl:w-[30rem] lg:w-[30rem] md:w-[20rem] sm:w-[10rem] text-sm mb-4">
                         {product?.description?.substring(0, 160)}...
                       </p>
 
                       <div className="flex justify-between">
                         <Link
                           to={`/admin/product/update/${product._id}`}
-                          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-pink-700 rounded-lg hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800"
+                          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-500 rounded-lg transition-colors duration-300 ease-in-out hover:bg-gray-400 hover:text-black focus:ring-4 focus:outline-none focus:ring-teal-300"
                         >
                           Update Product
                           <svg
@@ -72,7 +74,7 @@ const AllProducts = () => {
                             />
                           </svg>
                         </Link>
-                        <p>$ {product?.price}</p>
+                        <p className="text-teal-500">$ {product?.price}</p>
                       </div>
                     </div>
                   </div>

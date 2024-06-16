@@ -24,7 +24,7 @@ const Cart = () => {
 
   return (
     <>
-      <div className="container flex justify-around items-start flex wrap mx-auto mt-8">
+      <div className="container flex justify-around items-start flex wrap mx-auto mt-8 bg-teal-500 min-h-screen">
         {cartItems.length === 0 ? (
           <div>
             Your cart is empty <Link to="/shop">Go To Shop</Link>
@@ -45,13 +45,13 @@ const Cart = () => {
                   </div>
 
                   <div className="flex-1 ml-4">
-                    <Link to={`/product/${item._id}`} className="text-pink-500">
+                    <Link to={`/product/NPR{item._id}`} className="text-green-500">
                       {item.name}
                     </Link>
 
                     <div className="mt-2 text-white">{item.brand}</div>
                     <div className="mt-2 text-white font-bold">
-                      $ {item.price}
+                      NPR {item.price}
                     </div>
                   </div>
 
@@ -89,14 +89,14 @@ const Cart = () => {
                   </h2>
 
                   <div className="text-2xl font-bold">
-                    ${" "}
+                    NPR{" "}
                     {cartItems
                       .reduce((acc, item) => acc + item.qty * item.price, 0)
                       .toFixed(2)}
                   </div>
 
                   <button
-                    className="bg-pink-500 mt-4 py-2 px-4 rounded-full text-lg w-full"
+                    className="bg-green-500 mt-4 py-2 px-4 rounded-full text-lg w-full"
                     disabled={cartItems.length === 0}
                     onClick={checkoutHandler}
                   >

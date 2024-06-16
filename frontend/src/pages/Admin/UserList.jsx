@@ -2,14 +2,9 @@ import { useEffect, useState } from "react";
 import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
-import {
-  useDeleteUserMutation,
-  useGetUsersQuery,
-  useUpdateUserMutation,
-} from "../../redux/api/usersApiSlice";
+import { useDeleteUserMutation, useGetUsersQuery, useUpdateUserMutation } from "../../redux/api/usersApiSlice";
 import { toast } from "react-toastify";
-// ⚠️⚠️⚠️ don't forget this ⚠️⚠️⚠️⚠️
-// import AdminMenu from "./AdminMenu";
+import AdminMenu from "./AdminMenu"; // Import AdminMenu component here
 
 const UserList = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
@@ -58,8 +53,8 @@ const UserList = () => {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-semibold mb-4">Users</h1>
+    <div className="p-4 bg-teal-500 min-h-screen text-gray-100">
+      <h1 className="text-2xl font-semibold px-14 mb-4">Users</h1>
       {isLoading ? (
         <Loader />
       ) : error ? (
@@ -68,10 +63,10 @@ const UserList = () => {
         </Message>
       ) : (
         <div className="flex flex-col md:flex-row">
-          {/* <AdminMenu /> */}
+          <AdminMenu /> {/* Include AdminMenu component here */}
           <table className="w-full md:w-4/5 mx-auto">
             <thead>
-              <tr>
+              <tr className="text-black-400">
                 <th className="px-4 py-2 text-left">ID</th>
                 <th className="px-4 py-2 text-left">NAME</th>
                 <th className="px-4 py-2 text-left">EMAIL</th>
@@ -81,7 +76,7 @@ const UserList = () => {
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr key={user._id}>
+                <tr key={user._id} className="text-black-400">
                   <td className="px-4 py-2">{user._id}</td>
                   <td className="px-4 py-2">
                     {editableUserId === user._id ? (
@@ -90,7 +85,7 @@ const UserList = () => {
                           type="text"
                           value={editableUserName}
                           onChange={(e) => setEditableUserName(e.target.value)}
-                          className="w-full p-2 border rounded-lg"
+                          className="w-full p-2 border rounded-lg text-black"
                         />
                         <button
                           onClick={() => updateHandler(user._id)}
@@ -119,7 +114,7 @@ const UserList = () => {
                           type="text"
                           value={editableUserEmail}
                           onChange={(e) => setEditableUserEmail(e.target.value)}
-                          className="w-full p-2 border rounded-lg"
+                          className="w-full p-2 border rounded-lg text-black"
                         />
                         <button
                           onClick={() => updateHandler(user._id)}
@@ -130,10 +125,10 @@ const UserList = () => {
                       </div>
                     ) : (
                       <div className="flex items-center">
-                        <a href={`mailto:${user.email}`}>{user.email}</a>{" "}
+                        <a href={`mailto:${user.email}`} className="text-black-400">{user.email}</a>{" "}
                         <button
                           onClick={() =>
-                            toggleEdit(user._id, user.name, user.email)
+                            toggleEdit(user._id, user.username, user.email)
                           }
                         >
                           <FaEdit className="ml-[1rem]" />

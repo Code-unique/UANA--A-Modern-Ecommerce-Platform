@@ -8,7 +8,7 @@ const OrderList = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
 
   return (
-    <>
+    <div className="h-screen bg-teal-500">
       {isLoading ? (
         <Loader />
       ) : error ? (
@@ -50,7 +50,7 @@ const OrderList = () => {
                   {order.createdAt ? order.createdAt.substring(0, 10) : "N/A"}
                 </td>
 
-                <td>$ {order.totalPrice}</td>
+                <td>NPR {order.totalPrice}</td>
 
                 <td className="py-2">
                   {order.isPaid ? (
@@ -86,7 +86,7 @@ const OrderList = () => {
           </tbody>
         </table>
       )}
-    </>
+    </div>
   );
 };
 
