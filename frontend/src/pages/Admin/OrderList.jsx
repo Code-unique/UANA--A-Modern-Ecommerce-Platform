@@ -8,7 +8,7 @@ const OrderList = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
 
   return (
-    <div className="h-screen bg-teal-500">
+    <div className=" min-h-screen bg-teal-500">
       {isLoading ? (
         <Loader />
       ) : error ? (
