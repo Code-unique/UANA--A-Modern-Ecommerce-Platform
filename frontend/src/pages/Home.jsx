@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useGetProductsQuery } from '../redux/api/productApiSlice';
 import Loader from '../components/Loader';

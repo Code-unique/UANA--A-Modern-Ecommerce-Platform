@@ -29,6 +29,8 @@ import ProductDetails from "./pages/Products/ProductDetails.jsx";
 import Cart from "./pages/Cart.jsx";
 import Shop from "./pages/Shop.jsx";
 import Chat from "./pages/Chat/Chat";
+import About from "./pages/About.jsx"
+import Gifts from "./pages/Gifts.jsx"
 
 
 
@@ -49,6 +51,8 @@ const router = createBrowserRouter(
       <Route path="/product/:id" element={<ProductDetails />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/shop" element={<Shop />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/gifts" element={<Gifts />} />
 
       <Route path="/chat" element={<Chat />} />
       {/* Registered users */}

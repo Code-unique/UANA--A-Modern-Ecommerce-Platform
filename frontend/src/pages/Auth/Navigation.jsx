@@ -100,7 +100,7 @@ const Navigation = () => {
         </Link>
 
         <Link
-          to="/gift"
+          to="/gifts"
           className="flex items-center transition-transform transform hover:translate-x-2"
         >
           <IoGift className="mr-2 mt-[3rem]" size={20} />
