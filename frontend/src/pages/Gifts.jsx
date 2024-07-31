@@ -11,6 +11,21 @@ const Gifts = () => {
   const [recommendations, setRecommendations] = useState([]);
   const userId = localStorage.getItem('userId'); // Fetch userId from localStorage
 
+  // Function to save user interactions
+  const saveUserInteraction = async (productId, actionType) => {
+    try {
+      await axios.post('/api/interaction', {
+        userId,
+        productId,
+        rating: null, // Optional, set if needed
+        vector: null, // Optional, set if needed
+        actionType,
+      });
+    } catch (error) {
+      console.error('Error saving interaction:', error.message);
+    }
+  };
+
   useEffect(() => {
     const fetchGifts = async () => {
       try {
@@ -44,7 +59,13 @@ const Gifts = () => {
     fetchRecommendations(); // Fetch recommendations after fetching gifts
   }, [userId]);
 
+  useEffect(() => {
+    // Save interactions when gifts are viewed
+    gifts.forEach((gift) => saveUserInteraction(gift._id, 'view'));
+  }, [gifts]);
+
   const handleGiftClick = (gift) => {
+    saveUserInteraction(gift._id, 'click');
     setSelectedGift(gift);
   };
 

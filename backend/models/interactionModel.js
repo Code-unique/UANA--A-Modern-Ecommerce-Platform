@@ -1,12 +1,14 @@
-// models/interactionModel.js
-
+// interactionModel.js
 import mongoose from 'mongoose';
 
 const interactionSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-  rating: Number, // or other relevant fields
-  vector: [Number], // For similarity calculation
+  userId: mongoose.Schema.Types.ObjectId,
+  productId: mongoose.Schema.Types.ObjectId,
+  rating: Number,
+  vector: [Number],
+  actionType: String,
 });
 
-export const Interaction = mongoose.model('Interaction', interactionSchema);
+const Interaction = mongoose.model('Interaction', interactionSchema);
+
+export { Interaction }; // Named export

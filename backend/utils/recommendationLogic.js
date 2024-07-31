@@ -1,5 +1,5 @@
 import cosineSimilarity from 'cosine-similarity';
-import User from '../models/userModel.js';
+import {Interaction} from '../models/interactionModel.js'; // Update this to match your model path
 import Product from '../models/productModel.js';
 
 // Calculate similarity matrix
@@ -26,10 +26,10 @@ const findSimilarUsers = (userId, similarityMatrix) => {
 // Fetch all user interactions
 const getAllUserInteractions = async () => {
   try {
-    // Fetch all user interactions and populate product details
-    return await User.find({})
+    // Fetch all user interactions
+    return await Interaction.find({})
       .populate({
-        path: 'interactions.productId',
+        path: 'productId',
         select: 'name vector', // Ensure vector is included
       })
       .exec();
@@ -73,8 +73,8 @@ export const getCollaborativeRecommendations = async (userId) => {
         continue;
       }
 
-      for (const item of similarUserInteractions.interactions) {
-        if (!userInteractions.interactions.some(interaction => interaction.productId && interaction.productId.equals(item.productId))) {
+      for (const item of similarUserInteractions.products) { // Ensure `products` field is used
+        if (!userInteractions.products.some(interaction => interaction.productId && interaction.productId.equals(item.productId))) {
           if (!recommendations.includes(item.productId.toString())) {
             recommendations.push(item.productId.toString());
           }
