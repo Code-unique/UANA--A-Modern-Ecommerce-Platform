@@ -14,7 +14,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [login, { isLoading }] = useLoginMutation();
-
   const { userInfo } = useSelector((state) => state.auth);
 
   const { search } = useLocation();
@@ -31,7 +30,11 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await login({ email, password }).unwrap();
-      console.log(res);
+      console.log('Login Response:', res);
+
+      localStorage.setItem('userId', res._id); // Store userId
+      localStorage.setItem('token', res.token); // Store token if applicable
+
       dispatch(setCredentials({ ...res }));
       navigate(redirect);
     } catch (err) {
@@ -44,13 +47,9 @@ const Login = () => {
       <section className="pl-[10rem] flex flex-wrap">
         <div className="mr-[4rem] mt-[5rem]">
           <h1 className="text-2xl font-semibold mb-4">Sign In</h1>
-
           <form onSubmit={submitHandler} className="container w-[40rem]">
             <div className="my-[2rem]">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-coral"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-coral">
                 Email Address
               </label>
               <input
@@ -64,10 +63,7 @@ const Login = () => {
             </div>
 
             <div className="mb-4">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-coral"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-coral">
                 Password
               </label>
               <input

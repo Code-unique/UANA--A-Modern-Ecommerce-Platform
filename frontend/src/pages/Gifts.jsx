@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { FaGift } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import './Gifts.css';
@@ -9,12 +8,13 @@ const Gifts = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedGift, setSelectedGift] = useState(null);
+  const [recommendations, setRecommendations] = useState([]);
+  const userId = localStorage.getItem('userId'); // Fetch userId from localStorage
 
   useEffect(() => {
     const fetchGifts = async () => {
       try {
-        const response = await axios.get('/api/products'); // Adjust the endpoint if necessary
-        console.log('API response:', response.data); // Log the response data for debugging
+        const response = await axios.get('/api/products');
         if (Array.isArray(response.data)) {
           setGifts(response.data);
         } else if (response.data.products && Array.isArray(response.data.products)) {
@@ -25,12 +25,24 @@ const Gifts = () => {
       } catch (error) {
         setError('Error fetching gifts: ' + error.message);
       } finally {
-        setLoading(false);
+        setLoading(false); // Set loading to false after fetching is done
+      }
+    };
+
+    const fetchRecommendations = async () => {
+      if (!userId) return;
+      try {
+        const response = await axios.get(`/api/recommendations/${userId}`);
+        setRecommendations(response.data);
+      } catch (error) {
+        console.error('Error fetching recommendations:', error.message);
+        setError('Error fetching recommendations: ' + error.message);
       }
     };
 
     fetchGifts();
-  }, []);
+    fetchRecommendations(); // Fetch recommendations after fetching gifts
+  }, [userId]);
 
   const handleGiftClick = (gift) => {
     setSelectedGift(gift);
@@ -72,6 +84,30 @@ const Gifts = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Recommendations Section */}
+        {recommendations.length > 0 && (
+          <div className="mt-8">
+            <h3 className="text-2xl font-semibold mb-4">You May Also Like</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {recommendations.map((rec) => (
+                <motion.div
+                  key={rec._id}
+                  className="bg-white p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition"
+                  whileHover={{ scale: 1.05 }}
+                  onClick={() => handleGiftClick(rec)}
+                >
+                  <img
+                    src={rec.image}
+                    alt={rec.name}
+                    className="w-full h-48 object-cover rounded-md mb-4"
+                  />
+                  <h2 className="text-2xl font-bold mb-2">{rec.name}</h2>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
       </main>
       {selectedGift && (
         <motion.div

@@ -1,23 +1,13 @@
-import asyncHandler from 'express-async-handler';
-import { getCollaborativeRecommendations } from '../utils/recommendationUtils.js';
-import Product from '../models/productModel.js';
-import User from '../models/userModel.js';
+import { getCollaborativeRecommendations } from '../utils/recommendationLogic.js';
 
-const getRecommendations = asyncHandler(async (req, res) => {
+export const getRecommendations = async (req, res) => {
   const { userId } = req.params;
-  
-  // Fetch user interactions
-  const user = await User.findById(userId).populate('interactions.product');
-  
-  if (!user) {
-    res.status(404);
-    throw new Error('User not found');
+
+  try {
+    const recommendations = await getCollaborativeRecommendations(userId);
+    res.status(200).json(recommendations);
+  } catch (error) {
+    console.error('Error fetching recommendations:', error.message);
+    res.status(500).json({ message: 'Error fetching recommendations' });
   }
-
-  const recommendations = getCollaborativeRecommendations(user.interactions);
-  const recommendedProducts = await Product.find({ _id: { $in: recommendations } });
-
-  res.json(recommendedProducts);
-});
-
-export { getRecommendations };
+};

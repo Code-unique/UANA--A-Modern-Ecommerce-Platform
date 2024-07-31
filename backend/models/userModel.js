@@ -23,6 +23,15 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+
+    interactions: [{
+      productId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+        required: true,
+      },
+      // Add other fields as needed
+    }],
   },
   { timestamps: true }
 );
