@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Ratings from "./Ratings";
@@ -16,7 +17,6 @@ const ProductTabs = ({
   product,
 }) => {
   const { data, isLoading } = useGetTopProductsQuery();
-
   const [activeTab, setActiveTab] = useState(1);
 
   if (isLoading) {
@@ -158,6 +158,28 @@ const ProductTabs = ({
       </section>
     </div>
   );
+};
+
+ProductTabs.propTypes = {
+  loadingProductReview: PropTypes.bool.isRequired,
+  userInfo: PropTypes.object,
+  submitHandler: PropTypes.func.isRequired,
+  rating: PropTypes.string.isRequired,
+  setRating: PropTypes.func.isRequired,
+  comment: PropTypes.string.isRequired,
+  setComment: PropTypes.func.isRequired,
+  product: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    reviews: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        comment: PropTypes.string.isRequired,
+        rating: PropTypes.number.isRequired,
+        createdAt: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+  }).isRequired,
 };
 
 export default ProductTabs;

@@ -5,8 +5,8 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Header from '../components/Header';
 import Product from './Products/Product';
-import ChatBot from './chat/ChatBot'; // Assuming this is your ChatBot component
-import ChatBubble from './chat/ChatBubble'; // Assuming this is your ChatBubble component
+import ChatBot from './Chat/ChatBot'; // Assuming this is your ChatBot component
+import ChatBubble from './Chat/ChatBubble'; // Assuming this is your ChatBubble component
 
 const Home = () => {
   const { keyword } = useParams();

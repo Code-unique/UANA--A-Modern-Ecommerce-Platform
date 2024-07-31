@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import PropTypes from 'prop-types';
 import './ChatBubble.css'; // Create ChatBubble.css for styling
 
 const ChatBubble = ({ onClick }) => {
@@ -9,6 +9,10 @@ const ChatBubble = ({ onClick }) => {
       </svg>
     </div>
   );
+};
+
+ChatBubble.propTypes = {
+  onClick: PropTypes.func.isRequired,
 };
 
 export default ChatBubble;

@@ -1,5 +1,6 @@
+import PropTypes from 'prop-types';
 import { useEffect } from "react";
-import { FaHeart, FaRegHeart, FaVaadin } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import {
   addToFavorites,
@@ -21,16 +22,16 @@ const HeartIcon = ({ product }) => {
   useEffect(() => {
     const favoritesFromLocalStorage = getFavoritesFromLocalStorage();
     dispatch(setFavorites(favoritesFromLocalStorage));
-  }, []);
+  }, [dispatch]);
 
   const toggleFavorites = () => {
     if (isFavorite) {
       dispatch(removeFromFavorites(product));
-      // remove the product from the localStorage as well
+      // Remove the product from localStorage as well
       removeFavoriteFromLocalStorage(product._id);
     } else {
       dispatch(addToFavorites(product));
-      // add the product to localStorage as well
+      // Add the product to localStorage as well
       addFavoriteToLocalStorage(product);
     }
   };
@@ -47,6 +48,13 @@ const HeartIcon = ({ product }) => {
       )}
     </div>
   );
+};
+
+HeartIcon.propTypes = {
+  product: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    // Add other product properties if necessary
+  }).isRequired,
 };
 
 export default HeartIcon;

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import './ChatBot.css';
 
 const ChatBot = ({ onClose }) => {
@@ -85,6 +86,10 @@ const ChatBot = ({ onClose }) => {
       </div>
     </div>
   );
+};
+
+ChatBot.propTypes = {
+  onClose: PropTypes.func.isRequired,
 };
 
 export default ChatBot;

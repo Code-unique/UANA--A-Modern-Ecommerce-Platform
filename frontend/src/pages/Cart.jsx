@@ -23,19 +23,19 @@ const Cart = () => {
   };
 
   return (
-    <>
-      <div className="container flex justify-around items-start flex wrap mx-auto mt-8 bg-teal-500 min-h-screen">
+    <div className="bg-teal-600 w-full h-screen flex flex-col items-center p-4">
+      <div className="w-full max-w-6xl mx-auto">
         {cartItems.length === 0 ? (
-          <div>
-            Your cart is empty <Link to="/shop">Go To Shop</Link>
+          <div className="text-white text-center mt-8">
+            Your cart is empty. <Link to="/shop" className="text-teal-200 underline">Go To Shop</Link>
           </div>
         ) : (
           <>
-            <div className="flex flex-col w-[80%]">
-              <h1 className="text-2xl font-semibold mb-4">Shopping Cart</h1>
+            <div className="flex flex-col w-full">
+              <h1 className="text-2xl font-semibold mb-4 text-white">Shopping Cart</h1>
 
               {cartItems.map((item) => (
-                <div key={item._id} className="flex items-enter mb-[1rem] pb-2">
+                <div key={item._id} className="flex items-center mb-4 p-2 bg-teal-700 rounded-lg">
                   <div className="w-[5rem] h-[5rem]">
                     <img
                       src={item.image}
@@ -45,12 +45,12 @@ const Cart = () => {
                   </div>
 
                   <div className="flex-1 ml-4">
-                    <Link to={`/product/NPR{item._id}`} className="text-green-500">
+                    <Link to={`/product/${item._id}`} className="text-teal-200">
                       {item.name}
                     </Link>
 
-                    <div className="mt-2 text-white">{item.brand}</div>
-                    <div className="mt-2 text-white font-bold">
+                    <div className="mt-2 text-teal-100">{item.brand}</div>
+                    <div className="mt-2 text-teal-100 font-bold">
                       NPR {item.price}
                     </div>
                   </div>
@@ -73,42 +73,40 @@ const Cart = () => {
 
                   <div>
                     <button
-                      className="text-red-500 mr-[5rem]"
+                      className="text-red-500"
                       onClick={() => removeFromCartHandler(item._id)}
                     >
-                      <FaTrash className="ml-[1rem] mt-[.5rem]" />
+                      <FaTrash className="text-2xl" />
                     </button>
                   </div>
                 </div>
               ))}
 
-              <div className="mt-8 w-[40rem]">
-                <div className="p-4 rounded-lg">
-                  <h2 className="text-xl font-semibold mb-2">
-                    Items ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
-                  </h2>
+              <div className="mt-8 p-4 bg-teal-700 rounded-lg w-full max-w-md">
+                <h2 className="text-xl font-semibold mb-2 text-white">
+                  Items ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
+                </h2>
 
-                  <div className="text-2xl font-bold">
-                    NPR{" "}
-                    {cartItems
-                      .reduce((acc, item) => acc + item.qty * item.price, 0)
-                      .toFixed(2)}
-                  </div>
-
-                  <button
-                    className="bg-green-500 mt-4 py-2 px-4 rounded-full text-lg w-full"
-                    disabled={cartItems.length === 0}
-                    onClick={checkoutHandler}
-                  >
-                    Proceed To Checkout
-                  </button>
+                <div className="text-2xl font-bold text-white">
+                  NPR{" "}
+                  {cartItems
+                    .reduce((acc, item) => acc + item.qty * item.price, 0)
+                    .toFixed(2)}
                 </div>
+
+                <button
+                  className="bg-teal-500 mt-4 py-2 px-4 rounded-full text-lg text-white w-full"
+                  disabled={cartItems.length === 0}
+                  onClick={checkoutHandler}
+                >
+                  Proceed To Checkout
+                </button>
               </div>
             </div>
           </>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

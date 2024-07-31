@@ -42,7 +42,7 @@ const Order = () => {
           type: "resetOptions",
           value: {
             "client-id": paypal.clientId,
-            currency: "USD",
+            currency: "NPR",
           },
         });
         paypalDispatch({ type: "setLoadingStatus", value: "pending" });
@@ -133,7 +133,7 @@ const Order = () => {
                             <td className="p-2 text-center">{item.qty}</td>
                             <td className="p-2 text-center">{item.price}</td>
                             <td className="p-2 text-center">
-                              $ {(item.qty * item.price).toFixed(2)}
+                            NPR. {(item.qty * item.price).toFixed(2)}
                             </td>
                           </tr>
                         ))}
@@ -185,19 +185,19 @@ const Order = () => {
               </h2>
               <div className="flex justify-between mb-2 text-white">
                 <span>Items</span>
-                <span>$ {order.itemsPrice}</span>
+                <span>NPR. {order.itemsPrice}</span>
               </div>
               <div className="flex justify-between mb-2 text-white">
                 <span>Shipping</span>
-                <span>$ {order.shippingPrice}</span>
+                <span>NPR. {order.shippingPrice}</span>
               </div>
               <div className="flex justify-between mb-2 text-white">
                 <span>Tax</span>
-                <span>$ {order.taxPrice}</span>
+                <span>NPR. {order.taxPrice}</span>
               </div>
               <div className="flex justify-between mb-2 text-white">
                 <span>Total</span>
-                <span>$ {order.totalPrice}</span>
+                <span>NPR. {order.totalPrice}</span>
               </div>
 
               {!order.isPaid && (

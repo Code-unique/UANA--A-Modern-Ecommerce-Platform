@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../../redux/features/cart/cartSlice";
-import { toast } from "react-toastify";
-import HeartIcon from "./HeartIcon";
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/features/cart/cartSlice';
+import { toast } from 'react-toastify';
+import HeartIcon from './HeartIcon';
 
 const Product = ({ product }) => {
   const dispatch = useDispatch();
@@ -24,10 +25,10 @@ const Product = ({ product }) => {
   };
 
   return (
-    <div className="max-w-sm rounded-lg shadow-md overflow-hidden ml-[2rem] p-3 relative">
+    <div className="w-[20rem] ml-[2rem] p-3 bg-teal-600 text-white rounded-lg shadow-md">
       <section className="relative">
         <Link to={`/product/${product._id}`}>
-          <span className="absolute bottom-3 right-3 bg-teal-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+          <span className="absolute bottom-3 right-3 bg-teal-800 text-teal-100 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full">
             {product?.brand}
           </span>
           <img
@@ -39,10 +40,10 @@ const Product = ({ product }) => {
         <HeartIcon product={product} />
       </section>
 
-      <div className="p-5">
+      <div className="p-4">
         <div className="flex justify-between">
-          <h5 className="mb-2 text-xl text-coral dark:text-white">{product?.name}</h5>
-          <p className="text-green-40000 font-semibold">
+          <h5 className="text-xl font-bold text-black">{product?.name}</h5>
+          <p className="text-teal-300 font-semibold">
             {product?.price?.toLocaleString("en-US", {
               style: "currency",
               currency: "NPR",
@@ -50,14 +51,14 @@ const Product = ({ product }) => {
           </p>
         </div>
 
-        <p className="mb-3 font-normal text-[#CFCFCF]">
+        <p className="mb-3 text-teal-200">
           {product?.description?.substring(0, 60)} ...
         </p>
 
         <section className="flex justify-between items-center">
           <Link
             to={`/product/${product._id}`}
-            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-400 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-teal-900 bg-teal-400 rounded-lg hover:bg-teal-500 focus:ring-4 focus:outline-none focus:ring-teal-300"
           >
             Read More
             <svg
@@ -78,7 +79,7 @@ const Product = ({ product }) => {
           </Link>
 
           <button
-            className="p-2 rounded-full bg-green-500 hover:bg-green-600 text-white"
+            className="p-2 rounded-full bg-teal-500 hover:bg-teal-600 text-white"
             onClick={() => addToCartHandler(product, 1)}
             aria-label="Add to Cart"
           >
@@ -88,6 +89,17 @@ const Product = ({ product }) => {
       </div>
     </div>
   );
+};
+
+Product.propTypes = {
+  product: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+    brand: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default Product;

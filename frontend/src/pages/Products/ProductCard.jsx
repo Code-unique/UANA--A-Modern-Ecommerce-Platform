@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useDispatch } from "react-redux";
@@ -17,10 +18,10 @@ const ProductCard = ({ p }) => {
   };
 
   return (
-    <div className="max-w-sm rounded-lg shadow-md overflow-hidden ml-[2rem] p-3 relative border border black">
+    <div className="max-w-sm rounded-lg shadow-lg overflow-hidden ml-[2rem] p-3 relative bg-teal-600 text-white">
       <section className="relative">
         <Link to={`/product/${p._id}`}>
-          <span className="absolute bottom-3 right-3 bg-green-100 text-coral-400 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-500 dark:text-coral-100">
+          <span className="absolute bottom-3 right-3 bg-teal-800 text-teal-100 text-sm font-medium mr-2 px-2.5 py-0.5 rounded-full">
             {p?.brand}
           </span>
           <img
@@ -34,8 +35,8 @@ const ProductCard = ({ p }) => {
 
       <div className="p-5">
         <div className="flex justify-between">
-          <h5 className="mb-2 text-xl text-coral dark:text-white">{p?.name}</h5>
-          <p className="text-coral-500 font-semibold">
+          <h5 className="mb-2 text-xl font-bold">{p?.name}</h5>
+          <p className="text-teal-300 font-semibold">
             {p?.price?.toLocaleString("en-US", {
               style: "currency",
               currency: "NPR",
@@ -43,14 +44,14 @@ const ProductCard = ({ p }) => {
           </p>
         </div>
 
-        <p className="mb-3 font-normal text-[#CFCFCF]">
+        <p className="mb-3 text-teal-200">
           {p?.description?.substring(0, 60)} ...
         </p>
 
         <section className="flex justify-between items-center">
           <Link
             to={`/product/${p._id}`}
-            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-400 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-teal-900 bg-teal-400 rounded-lg hover:bg-teal-500 focus:ring-4 focus:outline-none focus:ring-teal-300"
           >
             More
             <svg
@@ -71,7 +72,7 @@ const ProductCard = ({ p }) => {
           </Link>
 
           <button
-            className="p-2 rounded-full bg-green-500 hover:bg-green-600 text-white"
+            className="p-2 rounded-full bg-teal-500 hover:bg-teal-600 text-white"
             onClick={() => addToCartHandler(p, 1)}
           >
             <AiOutlineShoppingCart size={25} />
@@ -80,6 +81,17 @@ const ProductCard = ({ p }) => {
       </div>
     </div>
   );
+};
+
+ProductCard.propTypes = {
+  p: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+    brand: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default ProductCard;

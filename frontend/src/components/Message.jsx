@@ -1,7 +1,9 @@
+import PropTypes from 'prop-types';
+
 const Message = ({ variant, children }) => {
   const getVariantClass = () => {
     switch (variant) {
-      case "succcess":
+      case "success":
         return "bg-green-100 text-green-800";
       case "error":
         return "bg-red-100 text-red-800";
@@ -11,6 +13,11 @@ const Message = ({ variant, children }) => {
   };
 
   return <div className={`p-4 rounded ${getVariantClass()}`}>{children}</div>;
+};
+
+Message.propTypes = {
+  variant: PropTypes.oneOf(['success', 'error']).isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Message;

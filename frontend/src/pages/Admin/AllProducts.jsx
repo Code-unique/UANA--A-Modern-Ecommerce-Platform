@@ -17,7 +17,7 @@ const AllProducts = () => {
   return (
     <>
       <div className="container mx-[9rem]">
-        <div className={`flex flex-col md:flex-row bg-teal-500 min-h-screen ${products.length % 2 !== 0 ? "justify-end" : "justify-start"}`}>
+        <div className={`flex flex-col md:flex-row bg-teal-500 h-full ${products.length % 2 !== 0 ? "justify-end" : "justify-start"}`}>
           <div className="p-3">
             <div className="ml-[2rem] text-xl font-bold h-12 text-coral">
               All Products ({products.length})
@@ -74,7 +74,7 @@ const AllProducts = () => {
                             />
                           </svg>
                         </Link>
-                        <p className="text-teal-500">$ {product?.price}</p>
+                        <p className="text-teal-500">NPR. {product?.price}</p>
                       </div>
                     </div>
                   </div>

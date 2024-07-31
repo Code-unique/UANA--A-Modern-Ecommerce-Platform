@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './Gifts.css';
 
 const Gifts = () => {
@@ -10,6 +11,7 @@ const Gifts = () => {
   const [selectedGift, setSelectedGift] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
   const userId = localStorage.getItem('userId'); // Fetch userId from localStorage
+  const navigate = useNavigate(); // Initialize useNavigate
 
   // Function to save user interactions
   const saveUserInteraction = useCallback(async (productId, actionType) => {
@@ -71,6 +73,12 @@ const Gifts = () => {
 
   const handleClose = () => {
     setSelectedGift(null);
+  };
+
+  const handleSeeDetails = () => {
+    if (selectedGift) {
+      navigate(`/product/${selectedGift._id}`); // Redirect to product detail page
+    }
   };
 
   if (loading) {
@@ -137,7 +145,7 @@ const Gifts = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full relative">
             <button
               className="absolute top-4 right-4 text-coral-600 text-2xl"
               onClick={handleClose}
@@ -158,6 +166,12 @@ const Gifts = () => {
                 className="w-full rounded-md"
               />
             )}
+            <button
+              className="bg-green-500 text-white mt-4 py-2 px-4 rounded-full hover:bg-green-600 transition"
+              onClick={handleSeeDetails}
+            >
+              See Details
+            </button>
           </div>
         </motion.div>
       )}
