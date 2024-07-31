@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import './Gifts.css';
@@ -12,7 +12,7 @@ const Gifts = () => {
   const userId = localStorage.getItem('userId'); // Fetch userId from localStorage
 
   // Function to save user interactions
-  const saveUserInteraction = async (productId, actionType) => {
+  const saveUserInteraction = useCallback(async (productId, actionType) => {
     try {
       await axios.post('/api/interaction', {
         userId,
@@ -24,7 +24,7 @@ const Gifts = () => {
     } catch (error) {
       console.error('Error saving interaction:', error.message);
     }
-  };
+  }, [userId]);
 
   useEffect(() => {
     const fetchGifts = async () => {
@@ -57,12 +57,12 @@ const Gifts = () => {
 
     fetchGifts();
     fetchRecommendations(); // Fetch recommendations after fetching gifts
-  }, [userId]);
+  }, [userId, saveUserInteraction]);
 
   useEffect(() => {
     // Save interactions when gifts are viewed
     gifts.forEach((gift) => saveUserInteraction(gift._id, 'view'));
-  }, [gifts]);
+  }, [gifts, saveUserInteraction]);
 
   const handleGiftClick = (gift) => {
     saveUserInteraction(gift._id, 'click');
