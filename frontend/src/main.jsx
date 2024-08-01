@@ -34,6 +34,7 @@ import Gifts from "./pages/Gifts.jsx"
 
 
 
+
 import Shipping from "./pages/Orders/Shipping.jsx";
 import PlaceOrder from "./pages/Orders/PlaceOrder.jsx";
 import Order from "./pages/Orders/Order.jsx";
@@ -53,8 +54,11 @@ const router = createBrowserRouter(
       <Route path="/shop" element={<Shop />} />
       <Route path="/about" element={<About />} />
       <Route path="/gifts" element={<Gifts />} />
-
       <Route path="/chat" element={<Chat />} />
+      <Route path="/paysuccess" element={<><br></br>Payment Sucessful...</>} />
+
+
+     
       {/* Registered users */}
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<Profile />} />

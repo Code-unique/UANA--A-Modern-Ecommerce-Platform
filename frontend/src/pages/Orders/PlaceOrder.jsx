@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../../components/Message";
@@ -23,19 +23,63 @@ const PlaceOrder = () => {
 
   const dispatch = useDispatch();
 
+  
+
   const placeOrderHandler = async () => {
     try {
-      const res = await createOrder({
-        orderItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
-        paymentMethod: cart.paymentMethod,
-        itemsPrice: cart.itemsPrice,
-        shippingPrice: cart.shippingPrice,
-        taxPrice: cart.taxPrice,
-        totalPrice: cart.totalPrice,
-      }).unwrap();
-      dispatch(clearCartItems());
-      navigate(`/order/${res._id}`);
+      // const res = await createOrder({
+      //   orderItems: cart.cartItems,
+      //   shippingAddress: cart.shippingAddress,
+      //   paymentMethod: cart.paymentMethod,
+      //   itemsPrice: cart.itemsPrice,
+      //   shippingPrice: cart.shippingPrice,
+      //   taxPrice: cart.taxPrice,
+      //   totalPrice: cart.totalPrice,
+      // }).unwrap();
+      // dispatch(clearCartItems());
+      // navigate(/order/${res._id});
+
+      await fetch(
+        "http://localhost:5173/api/payment?amount=" + cart.totalPrice,
+
+        {
+          method: "POST",
+          headers: {
+            Authorization: "key 83882f53b99f428f81bce74984083c2d",
+          },
+          body: JSON.stringify({
+            return_url: "http://localhost:5173/paysuccess",
+            website_url: "https://example.com/",
+            // amount: total * 100,
+            purchase_order_id: "test12",
+            purchase_order_name: "test",
+            customer_info: {
+              name: "Khalti Bahadur",
+              email: "example@gmail.com",
+              phone: "9800000123",
+            },
+            amount_breakdown: [
+              {
+                label: "Mark Price",
+                amount: 1000,
+              },
+            ],
+            product_details: [
+              {
+                identity: "1234567890",
+                name: "Khalti logo",
+                total_price: 1300,
+                quantity: 1,
+                unit_price: 1300,
+              },
+            ],
+            merchant_username: "merchant_name",
+            merchant_extra: "merchant_extra",
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => (window.location = data.payment_url));
     } catch (error) {
       toast.error(error);
     }
@@ -123,7 +167,8 @@ const PlaceOrder = () => {
 
             <div>
               <h2 className="text-2xl font-semibold mb-4">Payment Method</h2>
-              <strong>Method:</strong> {cart.paymentMethod}
+              <h3>Khalti</h3>
+              {/* <strong>Method:</strong> {cart.paymentMethod} */}
             </div>
           </div>
 

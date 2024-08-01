@@ -89,10 +89,10 @@ const Shipping = () => {
                   className="form-radio text-coral"
                   name="paymentMethod"
                   value="PayPal"
-                  checked={paymentMethod === "PayPal"}
+                  checked={paymentMethod === "Khalti"}
                   onChange={(e) => setPaymentMethod(e.target.value)}
                 />
-                <span className="ml-2 text-coral">PayPal or Credit Card</span>
+                <span className="ml-2 text-coral">Khalti</span>
               </label>
             </div>
           </div>

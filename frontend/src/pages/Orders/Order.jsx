@@ -1,16 +1,10 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import Messsage from "../../components/Message";
+import Message from "../../components/Message";
 import Loader from "../../components/Loader";
-import {
-  useDeliverOrderMutation,
-  useGetOrderDetailsQuery,
-  useGetPaypalClientIdQuery,
-  usePayOrderMutation,
-} from "../../redux/api/orderApiSlice";
+import { useDeliverOrderMutation, useGetOrderDetailsQuery } from "../../redux/api/orderApiSlice";
 
 const Order = () => {
   const { id: orderId } = useParams();
@@ -22,61 +16,16 @@ const Order = () => {
     error,
   } = useGetOrderDetailsQuery(orderId);
 
-  const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
-  const [deliverOrder, { isLoading: loadingDeliver }] =
-    useDeliverOrderMutation();
+  const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
   const { userInfo } = useSelector((state) => state.auth);
 
-  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
-
-  const {
-    data: paypal,
-    isLoading: loadingPaPal,
-    error: errorPayPal,
-  } = useGetPaypalClientIdQuery();
-
   useEffect(() => {
-    if (!errorPayPal && !loadingPaPal && paypal.clientId) {
-      const loadingPaPalScript = async () => {
-        paypalDispatch({
-          type: "resetOptions",
-          value: {
-            "client-id": paypal.clientId,
-            currency: "NPR",
-          },
-        });
-        paypalDispatch({ type: "setLoadingStatus", value: "pending" });
-      };
-
-      if (order && !order.isPaid) {
-        if (!window.paypal) {
-          loadingPaPalScript();
-        }
-      }
+    if (!order) return;
+    if (!order.isPaid) {
+      // You may need to adjust the logic depending on your Khalti integration
+      // For now, this code block is just a placeholder
     }
-  }, [errorPayPal, loadingPaPal, order, paypal, paypalDispatch]);
-
-  function onApprove(data, actions) {
-    return actions.order.capture().then(async function (details) {
-      try {
-        await payOrder({ orderId, details });
-        refetch();
-        toast.success("Order is paid");
-      } catch (error) {
-        toast.error(error?.data?.message || error.message);
-      }
-    });
-  }
-
-  function createOrder(data, actions) {
-    return actions.order
-      .create({
-        purchase_units: [{ amount: { value: order.totalPrice } }],
-      })
-      .then((orderID) => {
-        return orderID;
-      });
-  }
+  }, [order]);
 
   function onError(err) {
     toast.error(err.message);
@@ -87,19 +36,65 @@ const Order = () => {
     refetch();
   };
 
+  const placeOrderHandler = async () => {
+    try {
+      await fetch(
+        "http://localhost:5173/api/payment?amount=" + order.totalPrice,
+        {
+          method: "POST",
+          headers: {
+            Authorization: "key YOUR_KHALTI_SECRET_KEY",
+          },
+          body: JSON.stringify({
+            return_url: "http://localhost:5173/paysuccess",
+            website_url: "https://example.com/",
+            purchase_order_id: order._id,
+            purchase_order_name: "Order Payment",
+            customer_info: {
+              name: order.user.username,
+              email: order.user.email,
+              phone: order.user.phone,
+            },
+            amount_breakdown: [
+              {
+                label: "Order Total",
+                amount: order.totalPrice * 100,
+              },
+            ],
+            product_details: [
+              {
+                identity: order._id,
+                name: "Order Payment",
+                total_price: order.totalPrice * 100,
+                quantity: 1,
+                unit_price: order.totalPrice * 100,
+              },
+            ],
+            merchant_username: "merchant_name",
+            merchant_extra: "merchant_extra",
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => (window.location = data.payment_url));
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <div className="bg-teal-500 min-h-screen flex justify-end">
       <div className="container flex flex-col md:flex-row ml-auto mr-10">
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Messsage variant="danger">{error.data.message}</Messsage>
+          <Message variant="danger">{error.data.message}</Message>
         ) : (
           <>
             <div className="md:w-2/3 pr-4">
               <div className="border gray-300 mt-5 pb-4 mb-5">
                 {order.orderItems.length === 0 ? (
-                  <Messsage>Order is empty</Messsage>
+                  <Message>Order is empty</Message>
                 ) : (
                   <div className="overflow-x-auto">
                     <table className="w-80%">
@@ -133,7 +128,7 @@ const Order = () => {
                             <td className="p-2 text-center">{item.qty}</td>
                             <td className="p-2 text-center">{item.price}</td>
                             <td className="p-2 text-center">
-                            NPR. {(item.qty * item.price).toFixed(2)}
+                              NPR. {(item.qty * item.price).toFixed(2)}
                             </td>
                           </tr>
                         ))}
@@ -174,9 +169,9 @@ const Order = () => {
                 </p>
 
                 {order.isPaid ? (
-                  <Messsage variant="success">Paid on {order.paidAt}</Messsage>
+                  <Message variant="success">Paid on {order.paidAt}</Message>
                 ) : (
-                  <Messsage variant="danger">Not paid</Messsage>
+                  <Message variant="danger">Not paid</Message>
                 )}
               </div>
 
@@ -202,20 +197,14 @@ const Order = () => {
 
               {!order.isPaid && (
                 <div>
-                  {loadingPay && <Loader />}{" "}
-                  {isPending ? (
-                    <Loader />
-                  ) : (
-                    <div>
-                      <div>
-                        <PayPalButtons
-                          createOrder={createOrder}
-                          onApprove={onApprove}
-                          onError={onError}
-                        ></PayPalButtons>
-                      </div>
-                    </div>
-                  )}
+                  {loadingDeliver && <Loader />}
+                  <button
+                    type="button"
+                    className="bg-green-500 text-white w-full py-2"
+                    onClick={placeOrderHandler}
+                  >
+                    Pay with Khalti
+                  </button>
                 </div>
               )}
 
