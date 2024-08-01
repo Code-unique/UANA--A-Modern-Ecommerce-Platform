@@ -164,9 +164,9 @@ const Order = () => {
                 </p>
 
                 <p className="mb-4">
-                  <strong className="text-green-300">Method:</strong>{" "}
-                  {order.paymentMethod}
-                </p>
+  <strong className="text-green-300">Method:</strong> Khalti
+</p>
+
 
                 {order.isPaid ? (
                   <Message variant="success">Paid on {order.paidAt}</Message>
