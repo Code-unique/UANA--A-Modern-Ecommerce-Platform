@@ -45,7 +45,7 @@ export const getCollaborativeRecommendations = async (userId) => {
     // Fetch all user interactions
     const allInteractions = await getAllUserInteractions();
 
-    // Check if interactions are properly populated
+
     if (!Array.isArray(allInteractions)) {
       console.warn('All interactions are not an array or empty');
       return [];
@@ -73,7 +73,7 @@ export const getCollaborativeRecommendations = async (userId) => {
         continue;
       }
 
-      for (const item of similarUserInteractions.products) { // Ensure `products` field is used
+      for (const item of similarUserInteractions.products) {
         if (!userInteractions.products.some(interaction => interaction.productId && interaction.productId.equals(item.productId))) {
           if (!recommendations.includes(item.productId.toString())) {
             recommendations.push(item.productId.toString());

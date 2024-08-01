@@ -1,4 +1,4 @@
-// backend/controllers/interactionController.js
+
 import { Interaction } from '../models/interactionModel.js';
 
 export const saveInteraction = async (req, res) => {
