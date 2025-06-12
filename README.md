@@ -42,3 +42,16 @@ npm install
 
 # Start Development
 npm run dev
+
+
+📦 Deployment
+✅ Frontend on Vercel
+
+✅ Backend on Render
+
+✅ MongoDB Atlas for cloud DB
+
+👤 Author
+Unique Adhikari
+
+
